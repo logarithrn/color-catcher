@@ -1,9 +1,29 @@
 // Get canvas and context
 const canvas = document.getElementById('gameCanvas');
+
+// Dynamic canvas sizing
+function resizeCanvas() {
+  const ratio = 600 / 800; // width / height
+
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+
+  if (width / height > ratio) {
+    width = height * ratio;
+  } else {
+    height = width / ratio;
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 const ctx = canvas.getContext('2d');
 
 // Colors to use
-const colors = ['red', 'blue', 'green'];
+const colors = ['red', 'blue', 'green', 'purple', 'orange', 'maroon'];
 const backgroundColors = ['#e0f7fa', '#e8f5e9', '#f3e5f5', '#fff3e0'];
 
 // Basket setup
@@ -487,12 +507,24 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
     mobileControls.appendChild(rightButton);
   
     document.body.appendChild(mobileControls);
-  
-    document.getElementById('left-button').addEventListener('touchstart', () => { keys['ArrowLeft'] = true; });
-    document.getElementById('left-button').addEventListener('touchend', () => { keys['ArrowLeft'] = false; });
-  
-    document.getElementById('right-button').addEventListener('touchstart', () => { keys['ArrowRight'] = true; });
-    document.getElementById('right-button').addEventListener('touchend', () => { keys['ArrowRight'] = false; });
+
+    document.getElementById('left-button').addEventListener('touchstart', (e) => { 
+      e.preventDefault();
+      keys['ArrowLeft'] = true;
+    });
+    document.getElementById('left-button').addEventListener('touchend', (e) => { 
+      e.preventDefault();
+      keys['ArrowLeft'] = false;
+    });
+    
+    document.getElementById('right-button').addEventListener('touchstart', (e) => { 
+      e.preventDefault();
+      keys['ArrowRight'] = true;
+    });
+    document.getElementById('right-button').addEventListener('touchend', (e) => { 
+      e.preventDefault();
+      keys['ArrowRight'] = false;
+    });
 }
   
 function gameLoop() {
