@@ -23,7 +23,7 @@ window.addEventListener('resize', resizeCanvas);
 const ctx = canvas.getContext('2d');
 
 // Colors to use
-const colors = ['red', 'blue', 'green', 'purple', 'orange', 'maroon'];
+const colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
 const backgroundColors = ['#e0f7fa', '#e8f5e9', '#f3e5f5', '#fff3e0'];
 
 // Basket setup
@@ -33,7 +33,7 @@ const basket = {
     x: canvas.width / 2 - 50,
     y: canvas.height - 40,
     color: getRandomColor(),
-    speed: 9
+    speed: 12
 };  
 
 // Game variables
@@ -128,7 +128,7 @@ function createBall(isPowerUp = false) {
       y: 0,
       radius: 12,
       color: color,
-      speed: 2 + Math.random(),
+      speed: 4 + Math.random(),
       isPowerUp: true,
       powerType: chosen
     };
@@ -138,7 +138,7 @@ function createBall(isPowerUp = false) {
       y: 0,
       radius: 12,
       color: getRandomColor(basket.color),
-      speed: 2 + Math.random(),
+      speed: 4 + Math.random(),
       isPowerUp: false
     };
   }
@@ -148,7 +148,7 @@ function resetGame() {
   score = 0;
   catches = 0;
   lives = 3;
-  ballSpeed = 2;
+  ballSpeed = 4;
   balls = [createBall()];
   basket.color = getRandomColor();
   basketChanges = 0;
@@ -195,6 +195,12 @@ function update() {
         createParticles(ball);
         resetBall(ball);
         checkAchievements();
+
+        if (catches === 2 && balls.length === 1) {
+          balls.push(createBall());
+          levelUpOpacity = 1;
+          sounds.levelup.play();
+        }        
 
         if (catches % 3 === 0) {
           basket.color = getRandomColor();
